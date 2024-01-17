@@ -17,3 +17,12 @@ def resize_img(original_image: Image.Image, canvas_height: int) -> ImageTk.Photo
     new_width = int(aspect_ratio * canvas_height)
     resized_img = original_image.resize((new_width, canvas_height), Image.LANCZOS)
     return ImageTk.PhotoImage(resized_img)
+
+
+def create_composite(watermark_img_path: str, original_img: Image.Image) -> Image.Image:
+    watermark_img = return_img_from_file(watermark_img_path)
+    if watermark_img:
+        # make watermark the same size as img
+        watermark = watermark_img.resize(original_img.size)
+        original_img.paste(watermark, (0, 0), watermark)
+        return original_img

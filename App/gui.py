@@ -30,6 +30,7 @@ class MainFrame(ttk.Frame):
         super().__init__(container)
 
         # canvas to display the user image
+        self.selected_img_path = None
         self.img_display = tk.Canvas(
             master=container,
             width=WatermarkApp.WIDTH / self.CANVAS_SIZE_RATIO,
@@ -57,31 +58,40 @@ class MainFrame(ttk.Frame):
         self.watermark_img_button.grid(row=0, column=2, sticky="S")
 
     def load_image_from_file(self):
-        selected_img_path = filedialog.askopenfilename(
+        self.selected_img_path = filedialog.askopenfilename(
             title="Select an image", filetypes=[("All files", "*")]
         )
-        pillow_img = img_processing.return_img_from_file(selected_img_path)
+        pillow_img = img_processing.return_img_from_file(self.selected_img_path)
         if pillow_img:
-            tk_img = img_processing.resize_img(
-                pillow_img, self.img_display.winfo_height()
-            )
-            # update the canvas with image
-            self.img_display.create_image(
-                self.img_display.winfo_width() / 2,
-                self.img_display.winfo_height() / 2,
-                image=tk_img,
-            )
-            self.img_display.img = tk_img  # needed to bypass garbage collector
+            self.update_canvas_with_image(pillow_img)
             # remove canvas bg by setting a default color; remove text
             self.img_display.config(bg=f"{tk.Canvas()['background']}")
             self.img_display.itemconfig(self.no_img_msg, text="")
+        if self.should_update_canvas():
+            pillow_watermarked_img = img_processing.create_composite(
+                watermark_img_path=self.watermark_path, original_img=pillow_img
+            )
+            self.update_canvas_with_image(pillow_watermarked_img)
+
+    def update_canvas_with_image(self, pillow_img):
+        tk_img = img_processing.resize_img(pillow_img, self.img_display.winfo_height())
+        # update the canvas with image
+        self.img_display.create_image(
+            self.img_display.winfo_width() / 2,
+            self.img_display.winfo_height() / 2,
+            image=tk_img,
+        )
+        self.img_display.img = tk_img  # needed to bypass garbage collector
 
     def load_watermark_path(self):
-        watermark_path = filedialog.askopenfilename(
+        self.watermark_path = filedialog.askopenfilename(
             title="Select watermark", filetypes=[("All files", "*")]
         )
-        if watermark_path:
-            self.watermark_img_button.config(text=f"...{watermark_path[-15:]}  ✅")
+        if self.watermark_path:
+            self.watermark_img_button.config(text=f"...{self.watermark_path[-15:]}  ✅")
+
+    def should_update_canvas(self) -> bool:
+        return self.watermark_path and self.selected_img_path
 
 
 # testing
