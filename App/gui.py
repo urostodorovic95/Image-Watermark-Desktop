@@ -22,16 +22,28 @@ class WatermarkApp(tk.Tk):
 class MainFrame(ttk.Frame):
     """Frame which contains all app widgets."""
 
+    CANVAS_SIZE_RATIO = 1.5
+
     def __init__(self, container):
         super().__init__(container)
 
+        # canvas to display the user image
         self.img_display = tk.Canvas(
             master=container,
-            width=WatermarkApp.WIDTH / 1.5,
-            height=WatermarkApp.HEIGHT / 1.5,
+            width=WatermarkApp.WIDTH / self.CANVAS_SIZE_RATIO,
+            height=WatermarkApp.HEIGHT / self.CANVAS_SIZE_RATIO,
         )
         self.img_display.configure(bg="red")  # testing
-        self.img_display.grid(row=0, column=2)
+        self.img_display.grid(row=2, column=2)
+
+        # load button
+        self.load_button = ttk.Button(
+            master=container, text="Load image", command=self.load_image_from_file
+        )
+        self.load_button.grid(row=0, column=2)
+
+    def load_image_from_file(self):
+        pass
 
 
 # testing
