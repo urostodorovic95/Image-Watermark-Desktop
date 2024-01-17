@@ -2,7 +2,7 @@
 from PIL import Image, ImageTk, UnidentifiedImageError
 
 
-def return_img_from_file(image_path) -> Image:
+def return_img_from_file(image_path: str) -> Image.Image:
     """Returns a PIL.Image object"""
     try:
         return Image.open(image_path)
@@ -10,7 +10,7 @@ def return_img_from_file(image_path) -> Image:
         return None
 
 
-def resize_img(original_image: Image, canvas_height: int) -> ImageTk.PhotoImage:
+def resize_img(original_image: Image.Image, canvas_height: int) -> ImageTk.PhotoImage:
     """Uses original image dimensions and canvas height to return a resized image
     which fits on the canvas."""
     aspect_ratio = original_image.width / original_image.height
