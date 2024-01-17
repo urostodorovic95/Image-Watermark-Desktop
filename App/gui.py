@@ -1,6 +1,7 @@
 """ Tkinter-based module to create a GUI. """
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, filedialog
+import img_processing
 
 
 class WatermarkApp(tk.Tk):
@@ -43,7 +44,10 @@ class MainFrame(ttk.Frame):
         self.load_button.grid(row=0, column=2)
 
     def load_image_from_file(self):
-        pass
+        selected_img_path = filedialog.askopenfilename(
+            title="Select an image", filetypes=[("All files", "*")]
+        )
+        tk_img = img_processing.return_img_from_file(selected_img_path)
 
 
 # testing
