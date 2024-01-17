@@ -67,7 +67,7 @@ class MainFrame(ttk.Frame):
             # remove canvas bg by setting a default color; remove text
             self.img_display.config(bg=f"{tk.Canvas()['background']}")
             self.img_display.itemconfig(self.no_img_msg, text="")
-        if self.should_update_canvas():
+        if self.should_create_composite():
             pillow_watermarked_img = img_processing.create_composite(
                 watermark_img_path=self.watermark_path, original_img=pillow_img
             )
@@ -90,7 +90,7 @@ class MainFrame(ttk.Frame):
         if self.watermark_path:
             self.watermark_img_button.config(text=f"...{self.watermark_path[-15:]}  ✅")
 
-    def should_update_canvas(self) -> bool:
+    def should_create_composite(self) -> bool:
         return self.watermark_path and self.selected_img_path
 
 
