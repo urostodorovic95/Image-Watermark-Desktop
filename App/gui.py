@@ -1,6 +1,6 @@
 """ Tkinter-based module to create a GUI. """
 import tkinter as tk
-from tkinter import ttk, filedialog
+from tkinter import ttk, filedialog, messagebox
 import img_processing
 
 
@@ -29,6 +29,7 @@ class MainFrame(ttk.Frame):
     def __init__(self, container):
         super().__init__(container)
         self.pillow_img = None
+        self.pillow_watermarked_img = None
 
         # canvas to display the user image
         self.selected_img_path = None
@@ -74,10 +75,10 @@ class MainFrame(ttk.Frame):
             self.img_display.config(bg=f"{tk.Canvas()['background']}")
             self.img_display.itemconfig(self.no_img_msg, text="")
         if self.should_create_composite():
-            pillow_watermarked_img = img_processing.create_composite(
+            self.pillow_watermarked_img = img_processing.create_composite(
                 watermark_img_path=self.watermark_path, original_img=self.pillow_img
             )
-            self.update_canvas_with_image(pillow_watermarked_img)
+            self.update_canvas_with_image(self.pillow_watermarked_img)
             self.configure_save_button()
 
     def update_canvas_with_image(self, pillow_image):
@@ -110,10 +111,12 @@ class MainFrame(ttk.Frame):
         if original_img.format == "MPO":  # on mac, .format property is MPO for JPEG
             original_img.format = "JPEG"
         path = filedialog.asksaveasfilename(defaultextension=f".{original_img.format}")
+        if path:
+            self.pillow_watermarked_img.save(path)
+            messagebox.showinfo("Success!", "Watermark added and saved successfully!")
 
 
 # TODO
-# create a save button and the function
 # possibly change styling (tho doesnt matter much)
 
 # testing
