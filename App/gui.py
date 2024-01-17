@@ -1,7 +1,7 @@
 """ Tkinter-based module to create a GUI. """
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
-import img_processing
+from . import img_processing
 
 
 class WatermarkApp(tk.Tk):
@@ -121,12 +121,3 @@ class MainFrame(ttk.Frame):
         if path:
             self.pillow_watermarked_img.save(path)
             messagebox.showinfo("Success!", "Watermark added and saved successfully!")
-
-
-# TODO
-# possibly change styling (tho doesnt matter much)
-
-# testing
-app = WatermarkApp()
-MainFrame(app)
-app.mainloop()
