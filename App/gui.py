@@ -18,6 +18,7 @@ class WatermarkApp(tk.Tk):
         self.resizable(False, False)
         self.columnconfigure(2, weight=1)
         self.rowconfigure(0, weight=1)
+        self.rowconfigure(1, weight=1)
 
 
 class MainFrame(ttk.Frame):
@@ -44,9 +45,16 @@ class MainFrame(ttk.Frame):
 
         # load button
         self.load_button = ttk.Button(
-            master=container, text="Load image", command=self.load_image_from_file
+            master=container, text="2. Load Image", command=self.load_image_from_file
         )
-        self.load_button.grid(row=0, column=2)
+        self.load_button.grid(row=1, column=2, sticky="N")
+
+        # watermark image
+        self.watermark_path = None
+        self.watermark_img_button = ttk.Button(
+            master=container, text="1. Load Watermark", command=self.load_watermark_path
+        )
+        self.watermark_img_button.grid(row=0, column=2, sticky="S")
 
     def load_image_from_file(self):
         selected_img_path = filedialog.askopenfilename(
@@ -67,6 +75,12 @@ class MainFrame(ttk.Frame):
             # remove canvas bg by setting a default color; remove text
             self.img_display.config(bg=f"{tk.Canvas()['background']}")
             self.img_display.itemconfig(self.no_img_msg, text="")
+
+    def load_watermark_path(self):
+        watermark_path = filedialog.askopenfilename(
+            title="Select watermark", filetypes=[("All files", "*")]
+        )
+        self.watermark_img_button.config(text=f"...{watermark_path[-15:]}✅")
 
 
 # testing
