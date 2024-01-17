@@ -80,7 +80,8 @@ class MainFrame(ttk.Frame):
         watermark_path = filedialog.askopenfilename(
             title="Select watermark", filetypes=[("All files", "*")]
         )
-        self.watermark_img_button.config(text=f"...{watermark_path[-15:]}✅")
+        if watermark_path:
+            self.watermark_img_button.config(text=f"...{watermark_path[-15:]}  ✅")
 
 
 # testing
