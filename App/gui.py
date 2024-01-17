@@ -47,7 +47,20 @@ class MainFrame(ttk.Frame):
         selected_img_path = filedialog.askopenfilename(
             title="Select an image", filetypes=[("All files", "*")]
         )
-        tk_img = img_processing.return_img_from_file(selected_img_path)
+        pillow_img = img_processing.return_img_from_file(selected_img_path)
+        if pillow_img:
+            tk_img = img_processing.resize_img(
+                pillow_img, self.img_display.winfo_height()
+            )
+            # update the canvas with image
+            self.img_display.create_image(
+                self.img_display.winfo_width() / 2,
+                self.img_display.winfo_height() / 2,
+                image=tk_img,
+            )
+            self.img_display.img = tk_img  # needed to bypass garbage collector
+            # remove canvas bg by setting a default color
+            self.img_display.config(bg=f"{tk.Canvas()['background']}")
 
 
 # testing

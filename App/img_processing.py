@@ -1,6 +1,19 @@
 """ PIL/PILLOW-based module to deal with image processing. """
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, UnidentifiedImageError
 
 
-def return_img_from_file(image_path):
-    return ImageTk.PhotoImage(Image.open(image_path))
+def return_img_from_file(image_path) -> Image:
+    """Returns a PIL.Image object"""
+    try:
+        return Image.open(image_path)
+    except UnidentifiedImageError:
+        return None
+
+
+def resize_img(original_image: Image, canvas_height: int) -> ImageTk.PhotoImage:
+    """Uses original image dimensions and canvas height to return a resized image
+    which fits on the canvas."""
+    aspect_ratio = original_image.width / original_image.height
+    new_width = int(aspect_ratio * canvas_height)
+    resized_img = original_image.resize((new_width, canvas_height), Image.LANCZOS)
+    return ImageTk.PhotoImage(resized_img)
