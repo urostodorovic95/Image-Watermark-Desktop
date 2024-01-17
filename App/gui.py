@@ -13,7 +13,7 @@ class WatermarkApp(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.title = "Image Watermark Desktop"
+        self.title("Image Watermark Desktop")
         self.geometry(f"{self.WIDTH}x{self.HEIGHT}")
         self.resizable(True, True)
         self.columnconfigure(2, weight=1)
