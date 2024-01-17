@@ -70,6 +70,7 @@ class MainFrame(ttk.Frame):
         self.selected_img_path = filedialog.askopenfilename(
             title="Select an image", filetypes=[("All files", "*")]
         )
+        self.load_button.config(text=f"...{self.selected_img_path[-15:]}  ✅")
         self.pillow_img = img_processing.return_img_from_file(self.selected_img_path)
         if self.pillow_img:
             self.update_canvas_with_image(self.pillow_img)
