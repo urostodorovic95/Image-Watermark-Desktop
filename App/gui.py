@@ -15,7 +15,7 @@ class WatermarkApp(tk.Tk):
 
         self.title("Image Watermark Desktop")
         self.geometry(f"{self.WIDTH}x{self.HEIGHT}")
-        self.resizable(True, True)
+        self.resizable(False, False)
         self.columnconfigure(2, weight=1)
         self.rowconfigure(0, weight=1)
 
