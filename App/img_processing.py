@@ -20,6 +20,7 @@ def resize_img(original_image: Image.Image, canvas_height: int) -> ImageTk.Photo
 
 
 def create_composite(watermark_img_path: str, original_img: Image.Image) -> Image.Image:
+    """Resize the watermark to fit in the image and create the watermarked image."""
     watermark_img = return_img_from_file(watermark_img_path)
     if watermark_img:
         # make watermark the same size as img

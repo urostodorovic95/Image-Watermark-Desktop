@@ -65,7 +65,8 @@ class MainFrame(ttk.Frame):
         )
 
     def process_image(self):
-        """Load the img from specified path and deal with processing the canvas and creating composite."""
+        """Load the img from specified path and deal
+        with processing the canvas and creating composite."""
         self.selected_img_path = filedialog.askopenfilename(
             title="Select an image", filetypes=[("All files", "*")]
         )
