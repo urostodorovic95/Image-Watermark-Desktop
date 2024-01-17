@@ -48,7 +48,7 @@ class MainFrame(ttk.Frame):
 
         # load button
         self.load_button = ttk.Button(
-            master=container, text="2. Load Image", command=self.load_image_from_file
+            master=container, text="2. Load Image", command=self.process_image
         )
         self.load_button.grid(row=1, column=2, sticky="N")
 
@@ -64,7 +64,8 @@ class MainFrame(ttk.Frame):
             master=container, text="Save", command=self.save_output
         )
 
-    def load_image_from_file(self):
+    def process_image(self):
+        """Load the img from specified path and deal with processing the canvas and creating composite."""
         self.selected_img_path = filedialog.askopenfilename(
             title="Select an image", filetypes=[("All files", "*")]
         )
@@ -82,6 +83,7 @@ class MainFrame(ttk.Frame):
             self.configure_save_button()
 
     def update_canvas_with_image(self, pillow_image):
+        """Fit the photo to canvas and add it."""
         tk_img = img_processing.resize_img(
             pillow_image, self.img_display.winfo_height()
         )
@@ -94,6 +96,7 @@ class MainFrame(ttk.Frame):
         self.img_display.img = tk_img  # needed to bypass garbage collector
 
     def load_watermark_path(self):
+        """Load the watermark image."""
         self.watermark_path = filedialog.askopenfilename(
             title="Select watermark", filetypes=[("All files", "*")]
         )
@@ -101,12 +104,15 @@ class MainFrame(ttk.Frame):
             self.watermark_img_button.config(text=f"...{self.watermark_path[-15:]}  ✅")
 
     def should_create_composite(self) -> bool:
+        """Are all conditions met to process the image?"""
         return self.watermark_path and self.selected_img_path
 
     def configure_save_button(self):
+        """Add the button to GUI."""
         self.save_button.grid(row=3, column=2)
 
     def save_output(self):
+        """Save the output to file."""
         original_img = self.pillow_img
         if original_img.format == "MPO":  # on mac, .format property is MPO for JPEG
             original_img.format = "JPEG"
