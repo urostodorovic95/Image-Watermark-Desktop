@@ -4,6 +4,8 @@ from tkinter import ttk
 
 
 class WatermarkApp(tk.Tk):
+    """Main window config."""
+
     WIDTH = 800
     HEIGHT = 600
 
