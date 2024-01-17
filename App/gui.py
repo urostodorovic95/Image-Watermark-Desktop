@@ -34,7 +34,12 @@ class MainFrame(ttk.Frame):
             width=WatermarkApp.WIDTH / self.CANVAS_SIZE_RATIO,
             height=WatermarkApp.HEIGHT / self.CANVAS_SIZE_RATIO,
         )
-        self.img_display.configure(bg="red")  # testing
+        self.img_display.configure(bg="grey")
+        self.no_img_msg = self.img_display.create_text(
+            250,
+            200,
+            text="No image loaded. Load an image and a preview will be shown here.",
+        )
         self.img_display.grid(row=2, column=2)
 
         # load button
@@ -59,8 +64,9 @@ class MainFrame(ttk.Frame):
                 image=tk_img,
             )
             self.img_display.img = tk_img  # needed to bypass garbage collector
-            # remove canvas bg by setting a default color
+            # remove canvas bg by setting a default color; remove text
             self.img_display.config(bg=f"{tk.Canvas()['background']}")
+            self.img_display.itemconfig(self.no_img_msg, text="")
 
 
 # testing
